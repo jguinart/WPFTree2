@@ -52,6 +52,12 @@ namespace WPFTree2
         {
             var item = (TreeViewItem)sender;
 
+            if (item.Items.Count != 1 || item.Items[0] != null)
+                return;
+
+            item.Items.Clear();
+
+
             List<string> directories = this.GetItemsFromItem(item, TreeItemType.Folder);
 
             directories.ForEach(directoryPath =>
@@ -71,12 +77,12 @@ namespace WPFTree2
 
             directories = this.GetItemsFromItem(item, TreeItemType.File);
 
-            directories.ForEach(directoryPath =>
+            directories.ForEach(filePath =>
             {
                 var subItem = new TreeViewItem()
                 {
-                    Header = GetFileFolderName(directoryPath),
-                    Tag = directoryPath,
+                    Header = GetFileFolderName(filePath),
+                    Tag = filePath,
                 };
 
                 item.Items.Add(subItem);
@@ -110,11 +116,7 @@ namespace WPFTree2
         {
             var directories = new List<string>();
 
-            if (item.Items.Count != 1 || item.Items[0] != null)
-                return directories;
-
-            item.Items.Clear();
-
+            
             string fullPath = (string)item.Tag;
 
             try

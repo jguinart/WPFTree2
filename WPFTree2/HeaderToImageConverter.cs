@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
@@ -16,7 +17,17 @@ namespace WPFTree2
             if (path == null)
                 return null;
 
-            return new BitmapImage(new Uri($"pack://application:,,,/Images/drive.png"));
+            var name = MainWindow.GetFileFolderName(path);
+            string image;
+
+            if (string.IsNullOrEmpty(name))
+                image = "drive.png";
+            else if (new FileInfo(path).Attributes.HasFlag(FileAttributes.Directory))
+                image = "folder-closed.png";
+            else 
+                image = "file.png";
+
+            return new BitmapImage(new Uri($"pack://application:,,,/Images/{image}"));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
