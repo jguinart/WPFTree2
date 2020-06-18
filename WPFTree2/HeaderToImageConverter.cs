@@ -17,7 +17,7 @@ namespace WPFTree2
             if (path == null)
                 return null;
 
-            var name = MainWindow.GetFileFolderName(path);
+            var name = DirectoryStructure.GetFileFolderName(path);
             string image;
 
             if (string.IsNullOrEmpty(name))
